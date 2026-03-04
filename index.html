@@ -386,7 +386,10 @@ function flashUpdate() {
 async function fetchSales(uid, cartId) {
   const res = await fetch(WORKER_URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'ngrok-skip-browser-warning': 'true',
+    },
     body: JSON.stringify({ uid, cart_id: cartId }),
   });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
