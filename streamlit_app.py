@@ -4,8 +4,7 @@ import json
 import time
 from datetime import datetime
 
-GIST_ID      = "9e38e0bce5a40760ead9257f885cae7e"   # <- same Gist ID as monitor script
-GITHUB_TOKEN = st.secrets.get("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", "")
+RAW_GIST_URL = "https://gist.githubusercontent.com/qierqianshou2-del/9e38e0bce5a40760ead9257f885cae7e/raw/musicart_data.json"
 
 st.set_page_config(page_title="everglow offline MA Fansign", page_icon="🎫", layout="wide")
 
@@ -39,15 +38,10 @@ with st.sidebar:
     st.markdown("*Auto-refreshes every 30s*")
 
 def fetch_gist():
-    url  = f"https://api.github.com/gists/{GIST_ID}"
-    resp = requests.get(url, headers={"Accept": "application/vnd.github.v3+json", "Authorization": f"token {GITHUB_TOKEN}"}, timeout=10)
-    data = resp.json()
-    if "files" not in data:
-        raise Exception(f"GitHub API error: {data.get('message', str(data))}")
-    if "musicart_data.json" not in data["files"]:
-        raise Exception(f"File not found in gist. Files present: {list(data['files'].keys())}")
-    raw = data["files"]["musicart_data.json"]["content"]
-    return json.loads(raw)
+    # Uses raw URL - no token needed, no rate limit
+    resp = requests.get(RAW_GIST_URL, timeout=10)
+    resp.raise_for_status()
+    return resp.json()
 
 try:
     gist = fetch_gist()
