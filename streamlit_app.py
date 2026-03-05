@@ -5,7 +5,7 @@ import time
 from datetime import datetime
 
 GIST_ID      = "9e38e0bce5a40760ead9257f885cae7e"   # <- same Gist ID as monitor script
-GITHUB_TOKEN = st.secrets.get("GITHUB_TOKEN", "")
+GITHUB_TOKEN = st.secrets.get("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", "")
 
 st.set_page_config(page_title="everglow offline MA Fansign", page_icon="🎫", layout="wide")
 
