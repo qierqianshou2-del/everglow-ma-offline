@@ -4,7 +4,8 @@ import json
 import time
 from datetime import datetime
 
-GIST_ID = "9e38e0bce5a40760ead9257f885cae7e"   # <- same Gist ID as monitor script
+GIST_ID      = "9e38e0bce5a40760ead9257f885cae7e"   # <- same Gist ID as monitor script
+GITHUB_TOKEN = st.secrets.get("GITHUB_TOKEN", "")
 
 st.set_page_config(page_title="everglow offline MA Fansign", page_icon="🎫", layout="wide")
 
@@ -39,7 +40,7 @@ with st.sidebar:
 
 def fetch_gist():
     url  = f"https://api.github.com/gists/{GIST_ID}"
-    resp = requests.get(url, headers={"Accept": "application/vnd.github.v3+json"}, timeout=10)
+    resp = requests.get(url, headers={"Accept": "application/vnd.github.v3+json", "Authorization": f"token {GITHUB_TOKEN}"}, timeout=10)
     data = resp.json()
     if "files" not in data:
         raise Exception(f"GitHub API error: {data.get('message', str(data))}")
